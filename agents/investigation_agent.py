@@ -1,6 +1,7 @@
 from tools.context_tool import get_customer
 from tools.transaction_tool import get_transactions
 from tools.behavior_tool import get_behavior
+from services.transaction_analysis_service import analyze_transactions
 
 from services.risk_service import calculate_risk
 
@@ -45,6 +46,18 @@ def investigate(customer_id: str):
         risk_level = "LOW"
         recommendation = "No Action Required"
 
+    
+    print("DEBUG - Transactions Count:", len(transactions))
+
+    transaction_findings = analyze_transactions(transactions)
+
+    print("DEBUG - Transaction Findings:", transaction_findings)
+
+    findings.extend(transaction_findings)
+
+    print("DEBUG - Final Findings:", findings)
+
+    
     return {
         "customer": customer,
         "transactions": transactions,
