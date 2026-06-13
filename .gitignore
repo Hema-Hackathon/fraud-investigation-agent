@@ -1,1 +1,6 @@
+fraud_env/
+__pycache__/
+*.pyc
 .ipynb_checkpoints/
+*.jupyterlab-workspace
+.env
