@@ -1,0 +1,101 @@
+customer_id,name,age,risk_profile,country
+C0001,Allison Reese,58,Medium,Palestinian Territory
+C0002,Richard Jenkins,58,Medium,Pakistan
+C0003,Robert Henson,24,High,Kyrgyz Republic
+C0004,Rebecca English,75,High,Timor-Leste
+C0005,Joshua Mercado,59,Medium,Central African Republic
+C0006,Mary Hansen,24,Medium,Canada
+C0007,Todd Webb,39,Medium,Italy
+C0008,Kayla Vazquez,75,High,Egypt
+C0009,Ashley Perry,22,Medium,Azerbaijan
+C0010,Jennifer Tyler,71,Low,Singapore
+C0011,Danny Gardner,30,Low,Pakistan
+C0012,Cheryl Walker,23,High,Jordan
+C0013,Robert Frost,24,Medium,Cuba
+C0014,David Lee,75,Medium,Comoros
+C0015,Jacqueline Jackson PhD,18,Low,Portugal
+C0016,Mr. Justin Hughes,42,Medium,Yemen
+C0017,Laura Davis,67,Low,Iraq
+C0018,Mr. James Lynch DDS,73,Medium,Timor-Leste
+C0019,Robert Romero,22,Medium,Bahamas
+C0020,Heather Alexander,42,Medium,Armenia
+C0021,Alicia Clarke,41,High,Jamaica
+C0022,Monica Foster,75,High,India
+C0023,Carol White,73,High,Wallis and Futuna
+C0024,John Green,25,Low,Bulgaria
+C0025,Jessica Watson,62,Low,Liberia
+C0026,Robert Martinez DDS,63,Low,Nauru
+C0027,Leah Lang,66,Low,Lao People's Democratic Republic
+C0028,Kathleen Young,36,Medium,Albania
+C0029,John Duke,47,High,Brazil
+C0030,Amber Jenkins,27,Low,Christmas Island
+C0031,Kevin Webb,29,Low,Trinidad and Tobago
+C0032,Christopher Smith,34,Low,Sudan
+C0033,Margaret Butler,47,Low,Saint Vincent and the Grenadines
+C0034,Jonathan Martinez,75,Medium,Cook Islands
+C0035,Craig Jennings,25,High,Cuba
+C0036,Benjamin Fisher,26,High,Chile
+C0037,Christopher Simmons,60,High,Marshall Islands
+C0038,Roberto Washington,61,Medium,Honduras
+C0039,Damon Pope,55,Low,Sudan
+C0040,Danielle Bailey,75,High,Iceland
+C0041,Susan Johnson,23,High,Gibraltar
+C0042,Teresa Williams,30,Low,Greenland
+C0043,Matthew Thompson,25,High,Maldives
+C0044,Joshua Barnes,54,High,Micronesia
+C0045,Alexandra Krueger,47,Medium,Bouvet Island (Bouvetoya)
+C0046,Dr. Robin Mccarty,33,Medium,Portugal
+C0047,Carl Dixon,48,Medium,France
+C0048,Dustin Cannon,75,Medium,Latvia
+C0049,Mrs. Kelly Clark,64,Medium,Cyprus
+C0050,Kim Wilson,58,Low,Paraguay
+C0051,Jason Howard,38,High,Bosnia and Herzegovina
+C0052,Barbara Wallace,25,Low,Congo
+C0053,Luis Stafford,55,Low,North Macedonia
+C0054,Steven Perkins,67,Low,Greece
+C0055,David Martinez,21,High,Nicaragua
+C0056,Ashley Benitez,19,High,Lao People's Democratic Republic
+C0057,Christopher Wheeler,20,Medium,Chile
+C0058,Bryan Stewart,72,Medium,Kyrgyz Republic
+C0059,Mary Johnston,33,Medium,Equatorial Guinea
+C0060,Sandra Ramirez,21,Medium,Nepal
+C0061,Katherine Thornton,28,Low,Bangladesh
+C0062,Yvonne Lloyd,46,Low,Gibraltar
+C0063,Justin Miller,51,Low,Togo
+C0064,Zachary Miller,34,Medium,Anguilla
+C0065,Michelle Davidson,26,Medium,Cook Islands
+C0066,Dawn Johnson,62,Low,Croatia
+C0067,Elizabeth Blackburn,71,Medium,China
+C0068,Andrew Allen,39,Medium,French Guiana
+C0069,Jon Frost,59,Medium,Zimbabwe
+C0070,Emily Cruz,62,High,Albania
+C0071,Tracey Morris,39,Low,Ireland
+C0072,Keith Kaufman,63,Medium,Central African Republic
+C0073,Sally Anderson,70,Low,Slovenia
+C0074,Holly Faulkner,47,Low,Kuwait
+C0075,Debra Lewis,73,Medium,Saint Martin
+C0076,Eric Warren,21,Medium,British Virgin Islands
+C0077,Omar Beltran,35,Low,Moldova
+C0078,Leon Rich,28,High,Antigua and Barbuda
+C0079,Michael Gonzalez,52,Low,Finland
+C0080,Loretta Harris,28,Medium,Zambia
+C0081,Dana Anderson,52,High,Italy
+C0082,Chad Matthews,44,Low,Jordan
+C0083,Dominique Velez,75,Low,Georgia
+C0084,Tyler Henry,70,Medium,Fiji
+C0085,Troy Hunter,58,Medium,Peru
+C0086,Justin Phillips,52,Medium,Norway
+C0087,Gregory Calhoun,63,Medium,Guernsey
+C0088,Barbara Johns,55,High,Burundi
+C0089,Jorge Mathis,74,Medium,Antarctica (the territory South of 60 deg S)
+C0090,Eric Weber,71,Medium,American Samoa
+C0091,Frank Owen,38,Medium,Uganda
+C0092,Angel Mitchell,39,Low,Libyan Arab Jamahiriya
+C0093,Melanie Jackson,54,High,Taiwan
+C0094,Gregory Gould,74,Low,Slovakia (Slovak Republic)
+C0095,Steven Clark,38,High,Malaysia
+C0096,Randy Roberts,67,Medium,Timor-Leste
+C0097,Daniel Clark,48,Low,Iran
+C0098,Alan Clark,32,High,Kazakhstan
+C0099,Jessica Carter,23,High,Palestinian Territory
+C0100,Jordan Peterson,28,Medium,Vietnam
