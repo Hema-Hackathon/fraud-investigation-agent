@@ -38,6 +38,11 @@ def interpret_query(query: str):
             "intent": EXPLAIN_RISK,
             "query": query
         }
+    
+    elif "high value" in query:
+        return {
+            "intent": SHOW_HIGH_VALUE_TRANSACTIONS
+        }
 
     return {
         "intent": UNKNOWN

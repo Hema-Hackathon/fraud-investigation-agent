@@ -48,6 +48,34 @@ def get_suspicious_customers():
 
     return suspicious_customers[:10]
 
+def get_crypto_transactions():
+
+    transactions = pd.read_csv(
+        "data/transactions.csv"
+    )
+
+    crypto_transactions = transactions[
+        transactions["transaction_type"]
+        == "CRYPTO"
+    ]
+
+    return crypto_transactions.to_dict(
+        orient="records"
+    )
+
+def get_high_value_transactions():
+
+    transactions = pd.read_csv(
+        "data/transactions.csv"
+    )
+
+    high_value = transactions[
+        transactions["amount"] > 498000
+    ]
+
+    return high_value.to_dict(
+        orient="records"
+    )
 
 """
 Analytics Service
