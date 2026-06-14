@@ -47,17 +47,10 @@ def investigate(customer_id: str):
         recommendation = "No Action Required"
 
     
-    print("DEBUG - Transactions Count:", len(transactions))
-
     transaction_findings = analyze_transactions(transactions)
-
-    print("DEBUG - Transaction Findings:", transaction_findings)
 
     findings.extend(transaction_findings)
 
-    print("DEBUG - Final Findings:", findings)
-
-    
     return {
         "customer": customer,
         "transactions": transactions,
