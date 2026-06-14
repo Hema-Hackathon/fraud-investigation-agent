@@ -23,23 +23,33 @@ from constants.intents import (
     INVESTIGATE_CUSTOMER
 )
 
+from services.explanation_service import (
+    generate_summary
+)
 
 def handle_query(query: str):
 
     intent_data = process_query(query)
-    
+
     if intent_data["intent"] == SHOW_SUSPICIOUS_CUSTOMERS:
-    
+
         return get_suspicious_customers()
-    
+
     elif intent_data["intent"] == INVESTIGATE_CUSTOMER:
-    
+
         customer = resolve_customer(query)
 
-        return investigate(
+        if customer is None:
+            return {
+                "error": "Customer not found"
+            }
+
+        result = investigate(
             customer["customer_id"]
         )
-    
+
+        return generate_summary(result)
+
     return intent_data
 
 

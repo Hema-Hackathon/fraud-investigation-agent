@@ -38,11 +38,19 @@ async def home():
     """
 
 
-@app.post("/investigate")
+@app.post("/investigate", response_class=HTMLResponse)
 async def investigate_query(
     query: str = Form(...)
 ):
 
     result = handle_query(query)
 
-    return result
+    return f"""
+    <html>
+    <body>
+    <pre>{result}</pre>
+    <br>
+    <a href="./">Back</a>
+    </body>
+    </html>
+    """
