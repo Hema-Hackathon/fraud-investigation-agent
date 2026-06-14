@@ -1,5 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
+
+from controllers.investigation_controller import (
+    handle_query
+)
 
 app = FastAPI()
 
@@ -14,15 +18,31 @@ async def home():
                 Financial Crime Investigation Agent
             </h1>
 
-            <input
-                type='text'
-                placeholder='Ask a question'
-            >
+            <form action="investigate" method="post">
 
-            <button>
-                Investigate
-            </button>
+                <input
+                    type="text"
+                    name="query"
+                    placeholder="Ask a question"
+                    style="width:400px"
+                >
+
+                <button type="submit">
+                    Investigate
+                </button>
+
+            </form>
 
         </body>
     </html>
     """
+
+
+@app.post("/investigate")
+async def investigate_query(
+    query: str = Form(...)
+):
+
+    result = handle_query(query)
+
+    return result
