@@ -50,15 +50,27 @@ body{
 
 .table{
     margin-bottom:0;
+    font-size:13px;
 }
 
 .table th{
-    background:#0f172a;
-    color:white;
+    padding:8px 12px !important;
+    font-size:13px;
+    font-weight:600;
 }
 
 .table td{
-    color:white;
+    padding:6px 12px !important;
+    font-size:13px;
+    vertical-align:middle;
+}
+
+.table tr{
+    height:36px;
+}
+
+.table-hover tbody tr:hover{
+    background:#334155 !important;
 }
 
 .progress{
@@ -72,6 +84,15 @@ body{
     border-radius:8px;
     font-size:12px;
     font-weight:600;
+}
+
+.timeline-item{
+    background:#0f172a;
+    padding:10px;
+    border-left:4px solid #22c55e;
+    margin-bottom:8px;
+    border-radius:6px;
+    color:white;
 }
     
 </style>
@@ -155,19 +176,41 @@ Back
     <div class="card p-3 mt-3">
 
         <div class="section-title">
-            AI Investigator
-        </div>
+AI Investigation Summary
+</div>
 
-        <p class="mt-3">
-            Customer exhibits elevated financial crime risk based on behavioral anomalies and transaction analysis.
-        </p>
+<p class="mt-3">
+{{ result.ai_summary }}
+</p>
 
-        <p>
-            Recommendation:
-            <b>{{ result.recommendation }}</b>
-        </p>
+<hr>
+
+<p>
+Recommendation:
+<b>{{ result.recommendation }}</b>
+</p>
 
     </div>
+
+    <div class="card p-3 mt-3">
+
+    <div class="section-title">
+        Why Customer Was Flagged
+    </div>
+
+    <div class="mt-3">
+
+        {% for finding in result.findings %}
+
+        <div class="mb-2">
+            ✓ {{ finding }}
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
 
 </div>
 
@@ -184,10 +227,10 @@ Key Findings
 
 <div class="mt-2">
 
-{% for finding in result.findings %}
+{% for finding in result.findings|unique %}
 
 <span class="badge badge-custom finding-warning">
-{{ finding }}
+    {{ finding }}
 </span>
 
 {% endfor %}
@@ -202,38 +245,50 @@ Key Findings
 Recent Transactions
 </div>
 
-    <h5 style="color:red">
-Transaction Count: {{ result.transactions|length }}
-</h5>
-
-    <pre>
-{{ result.transactions }}
-</pre>
-    
-<table class="table transaction-table">
+<table class="table table-dark table-hover align-middle">
 
 <thead>
 <tr>
-<th>ID</th>
-<th>Amount</th>
-<th>Type</th>
+    <th>Transaction ID</th>
+    <th>Amount ($)</th>
+    <th>Type</th>
 </tr>
 </thead>
 
-    
 <tbody>
-<ul>
-{% for txn in result["transactions"] %}
-    <li>{{ txn["transaction_id"] }}</li>
-{% endfor %}
-</ul>
-    
+
 {% for txn in result["transactions"] %}
 
 <tr>
-    <td>{{ txn["transaction_id"] }}</td>
-    <td>{{ txn["amount"] }}</td>
-    <td>{{ txn["transaction_type"] }}</td>
+    <td>
+        <strong>{{ txn["transaction_id"] }}</strong>
+    </td>
+
+    <td>
+        $ {{ "{:,.2f}".format(txn["amount"]) }}
+    </td>
+
+    <td>
+
+        {% if txn["transaction_type"] == "CRYPTO" %}
+        <span class="badge bg-warning text-dark">
+            CRYPTO
+        </span>
+
+        {% elif txn["transaction_type"] == "TRANSFER" %}
+        <span class="badge bg-info">
+            TRANSFER
+        </span>
+
+        {% else %}
+        <span class="badge bg-secondary">
+            WITHDRAWAL
+        </span>
+
+        {% endif %}
+
+    </td>
+
 </tr>
 
 {% endfor %}
@@ -241,6 +296,60 @@ Transaction Count: {{ result.transactions|length }}
 </tbody>
 
 </table>
+
+</div>
+
+<div class="card p-3 mt-3">
+
+    <div class="section-title">
+        Investigation Workflow
+    </div>
+
+    <table class="table table-dark table-hover mt-3">
+
+        <thead>
+            <tr>
+                <th>Phase</th>
+                <th>Result</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Customer Profiling</td>
+                <td>Profile Retrieved</td>
+                <td><span class="badge bg-success">✓</span></td>
+            </tr>
+
+            <tr>
+                <td>Behavior Analysis</td>
+                <td>3 Anomalies Found</td>
+                <td><span class="badge bg-success">✓</span></td>
+            </tr>
+
+            <tr>
+                <td>Transaction Analysis</td>
+                <td>Crypto + High Value</td>
+                <td><span class="badge bg-success">✓</span></td>
+            </tr>
+
+            <tr>
+                <td>Risk Assessment</td>
+                <td>100 / HIGH</td>
+                <td><span class="badge bg-success">✓</span></td>
+            </tr>
+
+            <tr>
+                <td>AI Recommendation</td>
+                <td>Escalate Investigation</td>
+                <td><span class="badge bg-success">✓</span></td>
+            </tr>
+
+        </tbody>
+
+    </table>
 
 </div>
 
