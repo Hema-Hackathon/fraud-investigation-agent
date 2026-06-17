@@ -37,29 +37,41 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request):
 
-    suspicious_count = len(
-        get_suspicious_customers()
-    )
+    top_customers = get_suspicious_customers()[:5]
 
-    crypto_count = len(
-        get_crypto_transactions()
-    )
+    crypto_transactions = get_crypto_transactions()
 
-    high_value_count = len(
+    high_value_transactions = (
         get_high_value_transactions()
     )
 
-    
-    
-    
-    
+    suspicious_count = len(
+        top_customers
+    )
+
+    crypto_count = len(
+        crypto_transactions
+    )
+
+    high_value_count = len(
+        high_value_transactions
+    )
+
     return templates.TemplateResponse(
         "dashboard.html",
         {
             "request": request,
             "suspicious_count": suspicious_count,
             "crypto_count": crypto_count,
-            "high_value_count": high_value_count
+            "high_value_count": high_value_count,
+
+            "top_customers": top_customers,
+
+            "top_crypto_transactions":
+                crypto_transactions[:3],
+
+            "top_high_value_transactions":
+                high_value_transactions[:3]
         }
     )
 

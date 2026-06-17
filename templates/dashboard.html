@@ -11,7 +11,20 @@ Financial Crime Intelligence Platform
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet">
 <style>
-    
+
+.kpi-divider{
+    border-left:1px solid #334155;
+    padding-left:15px;
+}
+
+.table-hover tbody tr:hover{
+    background:#334155 !important;
+}
+
+.btn-outline-danger{
+    font-size:12px;
+}
+
 body{
     background:#020c2c;
     color:white;
@@ -108,6 +121,155 @@ body{
     border-color:#60a5fa;
     box-shadow:none;
 }
+
+.menu-item{
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:8px;
+    cursor:pointer;
+    color:#cbd5e1;
+    transition:0.3s;
+}
+
+.menu-item:hover{
+    background:#1e293b;
+    color:white;
+}
+
+.menu-item.active{
+    background:#2563eb;
+    color:white;
+    font-weight:600;
+}
+
+.input-group-text{
+    background:#0b1220 !important;
+    color:white !important;
+    border:1px solid #334155;
+}
+
+.queue-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px;
+    border-bottom:1px solid #334155;
+}
+
+.queue-item:last-child{
+    border-bottom:none;
+}
+
+#queue-table th{
+    padding:8px;
+    font-size:12px;
+    font-weight:600;
+}
+
+#queue-table td{
+    padding:8px;
+    font-size:12px;
+    vertical-align:middle;
+}
+
+#queue-table .badge{
+    font-size:10px;
+    margin-right:3px;
+}
+
+#queue-table .btn{
+    padding:3px 8px;
+    font-size:11px;
+}
+    
+#queue-table td:nth-child(2),
+#queue-table th:nth-child(2){
+    text-align:center;
+    width:120px;
+}
+.customer-link{
+    background:none;
+    border:none;
+    color:#60a5fa;
+    font-weight:600;
+    padding:0;
+}
+
+.customer-link{
+    background:none;
+    border:none;
+    color:#60a5fa;
+    font-weight:600;
+    padding:0;
+    text-decoration:none;
+}
+
+.customer-link:hover{
+    color:white;
+    text-decoration:underline;
+}
+
+.alert-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 12px;
+    margin-bottom:8px;
+    border-radius:8px;
+    font-size:13px;
+    background:#0f172a;
+}
+
+.alert-item:last-child{
+    margin-bottom:0;
+}
+
+.alert-item small{
+    color:#94a3b8;
+}
+
+.danger-alert{
+    border-left:4px solid #ef4444;
+}
+
+.warning-alert{
+    border-left:4px solid #f59e0b;
+}
+
+.info-alert{
+    border-left:4px solid #06b6d4;
+}
+
+
+.kpi-tooltip{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:260px;
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:8px;
+    padding:12px;
+    z-index:9999;
+}
+.popover{
+
+    background:#0f172a !important;
+
+    border:1px solid #334155 !important;
+
+    max-width:280px;
+
+}
+
+.popover-body{
+
+    color:white !important;
+
+    font-size:12px;
+
+}
 </style>
 
 
@@ -121,57 +283,379 @@ body{
 
 <div class="col-md-2 sidebar">
 
-<h4>
-Investigator
-</h4>
+    <h4 class="mb-4">
+        🔎 Investigator
+    </h4>
 
-<hr>
+    <hr>
 
-<p>Dashboard</p>
-<p>Customers</p>
-<p>Crypto</p>
-<p>Cases</p>
+    <div class="menu-item active">
+        📊 Dashboard
+    </div>
+
+    <div class="menu-item">
+        👥 Customers
+    </div>
+
+    <div class="menu-item">
+        ₿ Crypto Activity
+    </div>
+
+    <div class="menu-item">
+        📂 Cases
+    </div>
 
 </div>
 
 <div class="col-md-10 p-4">
 
 <h2>
-Financial Crime Intelligence Platform
+<div class="card p-4 mb-4">
+
+    <div class="d-flex justify-content-between">
+
+        <div>
+
+            <h2 class="mb-1">
+                Financial Crime Intelligence Platform
+            </h2>
+
+            <div style="color:#94a3b8;">
+                AI-Powered Fraud Detection & Investigation Workbench
+            </div>
+
+        </div>
+
+        <div>
+<button class="btn btn-outline-info"
+data-bs-toggle="modal"
+data-bs-target="#architectureModal">
+Architecture
+</button>
+</div>
+
+    </div>
+
+</div>
 </h2>
 
 <div class="row mt-4">
 
+<!-- Suspicious Customers -->
 <div class="col-md-4">
-<div class="card p-3">
-<h6>Suspicious Customers</h6>
-<div class="kpi">
-    {{ suspicious_count }}
-</div>
-</div>
+
+    <div class="card p-3">
+
+        <div class="row">
+
+            <div class="col-6">
+
+                <h6>Suspicious Customers</h6>
+
+                <div class="kpi">
+                    {{ suspicious_count }}
+                </div>
+
+            </div>
+
+            <div class="col-6 kpi-divider">
+
+                <div class="small text-info fw-bold">
+                    Top Risks
+                </div>
+
+               {% for customer in top_customers[:3] %}
+
+<div class="small">
+
+    {{ customer.customer_name }} -
+
+    <span class="
+    {% if customer.risk_score >= 90 %}
+        text-danger
+    {% elif customer.risk_score >= 70 %}
+        text-warning
+    {% else %}
+        text-success
+    {% endif %}
+    fw-bold">
+
+        {{ customer.risk_score }}
+
+    </span>
+
 </div>
 
+{% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Crypto Transactions -->
 <div class="col-md-4">
-<div class="card p-3">
-<h6>Crypto Transactions</h6>
-<div class="kpi">
-{{ crypto_count }}
-</div>
-</div>
+
+    <div class="card p-3">
+
+        <div class="row">
+
+            <div class="col-6">
+
+                <h6>Crypto Transactions</h6>
+
+                <div class="kpi">
+                    {{ crypto_count }}
+                </div>
+
+            </div>
+
+            <div class="col-6 kpi-divider">
+
+                <div class="small text-info fw-bold">
+                    Top Crypto Activity
+                </div>
+
+                {% for txn in top_crypto_transactions[:3] %}
+
+<div class="small">
+
+    {{ txn.customer_id }} -
+
+    <span class="
+    {% if loop.index == 1 %}
+        text-danger
+    {% else %}
+        text-warning
+    {% endif %}
+    fw-bold">
+
+    ${{ "{:,.0f}".format(txn.amount) }}
+
+    </span>
+
 </div>
 
+{% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- High Value Transfers -->
 <div class="col-md-4">
-<div class="card p-3">
-<h6>High Value Transfers</h6>
-<div class="kpi">
-{{ high_value_count }}
-</div>
-</div>
-</div>
+
+    <div class="card p-3">
+
+        <div class="row">
+
+            <div class="col-6">
+
+                <h6>High Value Transfers</h6>
+
+                <div class="kpi">
+                    {{ high_value_count }}
+                </div>
+
+            </div>
+
+            <div class="col-6 kpi-divider">
+
+                <div class="small text-info fw-bold">
+                    Top Transfers
+                </div>
+
+                {% for txn in top_high_value_transactions[:3] %}
+
+<div class="small">
+
+    {{ txn.customer_id }} -
+
+    <span class="
+    {% if loop.index == 1 %}
+        text-danger
+    {% else %}
+        text-warning
+    {% endif %}
+    fw-bold">
+
+    ${{ "{:,.0f}".format(txn.amount) }}
+
+    </span>
 
 </div>
 
-<div class="card mt-4 p-4">
+{% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+<div class="card mt-4 p-3">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <h5 class="mb-0">
+            🚨 Investigation Queue
+        </h5>
+
+        <span class="badge bg-danger">
+            {{ top_customers|length }} Pending Reviews
+        </span>
+
+    </div>
+
+    <table id="queue-table" class="table table-dark table-hover mt-3 mb-0">
+
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Risk</th>
+                <th>Reason</th>
+				<th>AI Insight</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for customer in top_customers %}
+
+            <tr>
+
+<td>
+
+<form action="investigate" method="post">
+
+    <input
+        type="hidden"
+        name="query"
+        value="investigate customer {{ customer.customer_id }}">
+
+    <button
+        type="submit"
+        class="customer-link">
+
+        {{ customer.customer_name }}
+
+    </button>
+
+</form>
+
+</td>
+
+                <td>
+
+                    {% if customer.risk_score >= 90 %}
+
+                    <span class="badge bg-danger">
+                        {{ customer.risk_score }}
+                    </span>
+
+                    {% elif customer.risk_score >= 70 %}
+
+                    <span class="badge bg-warning text-dark">
+                        {{ customer.risk_score }}
+                    </span>
+
+                    {% else %}
+
+                    <span class="badge bg-success">
+                        {{ customer.risk_score }}
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+<td>
+
+{% if loop.index == 1 %}
+
+<span class="badge bg-danger">Crypto</span>
+<span class="badge bg-warning text-dark">High Value</span>
+
+{% elif loop.index == 2 %}
+
+<span class="badge bg-warning text-dark">VPN</span>
+<span class="badge bg-danger">Midnight</span>
+
+{% elif loop.index == 3 %}
+
+<span class="badge bg-danger">Crypto</span>
+
+{% elif loop.index == 4 %}
+
+<span class="badge bg-info">Fund Movement</span>
+
+{% else %}
+
+<span class="badge bg-warning text-dark">High Value</span>
+
+{% endif %}
+</td>
+<td>
+
+{% if loop.index == 1 %}
+
+<span class="text-danger fw-bold">
+Potential AML Pattern
+</span>
+
+{% elif loop.index == 2 %}
+
+<span class="text-warning fw-bold">
+VPN + Midnight Activity
+</span>
+
+{% elif loop.index == 3 %}
+
+<span class="text-info fw-bold">
+Crypto Exposure
+</span>
+
+{% elif loop.index == 4 %}
+
+<span class="text-primary fw-bold">
+Rapid Fund Movement
+</span>
+
+{% else %}
+
+<span class="text-warning fw-bold">
+High Value Transfer
+</span>
+
+{% endif %}
+
+</td>
+
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+    <div class="card mt-4 p-4">
 
 <h4>
 Investigate Customer
@@ -180,20 +664,24 @@ Investigate Customer
 <form action="investigate"
       method="post">
 
-<input
-    type="text"
-    class="form-control"
-    name="query"
-    value="investigate customer C0057"
-    required>
+<div class="input-group">
 
-<button
-class="btn btn-danger mt-3"
-type="submit">
+    <span class="input-group-text bg-dark text-light border-secondary">
+        🔍
+    </span>
 
-Investigate
+    <input
+        class="form-control"
+        name="query"
+        value="investigate customer ">
 
-</button>
+    <button
+        class="btn btn-danger"
+        type="submit">
+
+        Investigate
+
+    </button>
 
 </form>
 
@@ -205,6 +693,56 @@ Investigate
 
 </div>
 
+
+<div class="modal fade" id="architectureModal" tabindex="-1">
+<div class="modal-dialog modal-xl">
+<div class="modal-content bg-dark text-light">
+<div class="modal-header">
+<h4>Financial Crime Intelligence Architecture</h4>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+<pre style="color:#60a5fa;font-size:15px;">
+Dashboard
+    ↓
+Investigation Queue
+    ↓
+Customer Intelligence Layer
+    ↓
+Risk Scoring Engine
+    ↓
+Transaction Analysis
+    ↓
+Crypto Detection Engine
+    ↓
+LLM Investigation Agent
+    ↓
+Investigation Narrative
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    var popoverTriggerList =
+        [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="popover"]')
+        );
+
+    popoverTriggerList.map(function (popoverTriggerEl) {
+
+        return new bootstrap.Popover(popoverTriggerEl);
+
+    });
+
+});
+
+</script>
 </body>
 
 </html>
