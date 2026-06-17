@@ -11,12 +11,18 @@ def resolve_customer(query: str):
 
     for _, customer in customers.iterrows():
 
-        customer_name = (
-            customer["name"]
-            .lower()
-        )
+        customer_id = str(
+            customer["customer_id"]
+        ).lower()
 
-        if customer_name in query:
+        customer_name = str(
+            customer["name"]
+        ).lower()
+
+        if (
+            customer_id in query
+            or customer_name in query
+        ):
 
             return {
                 "customer_id":
@@ -27,7 +33,6 @@ def resolve_customer(query: str):
             }
 
     return None
-
 
     """
 Customer Resolver
