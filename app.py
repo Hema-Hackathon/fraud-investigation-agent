@@ -1,56 +1,70 @@
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from controllers.investigation_controller import handle_query
 
-from controllers.investigation_controller import (
-    handle_query
+from services.analytics_service import (
+get_suspicious_customers,
+get_crypto_transactions,
+get_high_value_transactions
 )
 
 app = FastAPI()
 
+app.mount(
+    "/static",
+    StaticFiles(directory="static"),
+    name="static"
+)
+
+
+
+
+app = FastAPI()
+
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
-async def home():
+async def dashboard(request: Request):
 
-    return """
-    <html>
-        <body>
-            <h1>
-                Financial Crime Investigation Agent
-            </h1>
+    suspicious_count = len(
+        get_suspicious_customers()
+    )
 
-            <form action="investigate" method="post">
+    crypto_count = len(
+        get_crypto_transactions()
+    )
 
-                <input
-                    type="text"
-                    name="query"
-                    placeholder="Ask a question"
-                    style="width:400px"
-                >
+    high_value_count = len(
+        get_high_value_transactions()
+    )
 
-                <button type="submit">
-                    Investigate
-                </button>
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {
+            "request": request,
+            "suspicious_count": suspicious_count,
+            "crypto_count": crypto_count,
+            "high_value_count": high_value_count
+        }
+    )
 
-            </form>
-
-        </body>
-    </html>
-    """
-
-
-@app.post("/investigate", response_class=HTMLResponse)
-async def investigate_query(
+@app.post("/investigate")
+async def investigate(
+    request: Request,
     query: str = Form(...)
 ):
 
     result = handle_query(query)
 
-    return f"""
-    <html>
-    <body>
-    <pre>{result}</pre>
-    <br>
-    <a href="./">Back</a>
-    </body>
-    </html>
-    """
+    return templates.TemplateResponse(
+        "workbench.html",
+        {
+            "request": request,
+            "result": result,
+            "query": query
+        }
+    )
