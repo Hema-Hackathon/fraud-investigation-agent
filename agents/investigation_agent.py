@@ -47,9 +47,13 @@ def investigate(customer_id: str):
         recommendation = "No Action Required"
 
     
-    transaction_findings = analyze_transactions(transactions)
-
-    findings.extend(transaction_findings)
+    transaction_analysis = analyze_transactions(
+        transactions
+    )
+    
+    findings.extend(
+        transaction_analysis["findings"]
+    )
 
     return {
         "customer": customer,
@@ -57,5 +61,15 @@ def investigate(customer_id: str):
         "risk_score": risk_score,
         "risk_level": risk_level,
         "findings": findings,
-        "recommendation": recommendation
+        "recommendation": recommendation,
+    
+        "high_value_transactions":
+            transaction_analysis[
+                "high_value_transactions"
+            ],
+    
+        "crypto_transactions":
+            transaction_analysis[
+                "crypto_transactions"
+            ]
     }

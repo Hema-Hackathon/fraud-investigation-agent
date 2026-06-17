@@ -3,27 +3,43 @@ def analyze_transactions(transactions):
     findings = []
 
     high_value_count = 0
+    crypto_count = 0
+
+    high_value_transactions = []
+    crypto_transactions = []
 
     for txn in transactions:
 
-        amount = txn["amount"]
+        if txn["amount"] > 250000:
 
-        if amount > 100000:
             high_value_count += 1
 
-        if amount > 250000:
-            findings.append(
-                f"High Value Transaction: {amount}"
-            )
+            high_value_transactions.append({
+                "transaction_id": txn["transaction_id"],
+                "amount": txn["amount"]
+            })
 
         if txn["transaction_type"] == "CRYPTO":
-            findings.append(
-                "Crypto Transaction Detected"
-            )
 
-    if high_value_count >= 3:
+            crypto_count += 1
+
+            crypto_transactions.append({
+                "transaction_id": txn["transaction_id"],
+                "amount": txn["amount"]
+            })
+
+    if high_value_count > 0:
         findings.append(
-            "Multiple High Value Transactions"
+            f"High Value Transactions ({high_value_count})"
         )
 
-    return findings
+    if crypto_count > 0:
+        findings.append(
+            f"Crypto Transactions ({crypto_count})"
+        )
+
+    return {
+        "findings": findings,
+        "high_value_transactions": high_value_transactions,
+        "crypto_transactions": crypto_transactions
+    }
