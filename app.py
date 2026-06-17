@@ -11,6 +11,13 @@ get_suspicious_customers,
 get_crypto_transactions,
 get_high_value_transactions
 )
+from controllers.investigation_controller import handle_query
+
+from services.analytics_service import (
+get_suspicious_customers,
+get_crypto_transactions,
+get_high_value_transactions
+)
 
 app = FastAPI()
 
@@ -42,6 +49,10 @@ async def dashboard(request: Request):
         get_high_value_transactions()
     )
 
+    
+    
+    
+    
     return templates.TemplateResponse(
         "dashboard.html",
         {
@@ -60,6 +71,8 @@ async def investigate(
 
     result = handle_query(query)
 
+    print(result)
+    
     return templates.TemplateResponse(
         "workbench.html",
         {
