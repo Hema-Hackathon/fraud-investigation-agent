@@ -74,7 +74,12 @@ body{
 }
 
 .progress{
-    height:34px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    transition:width .5s ease;
 }
 
 .risk-badge{
@@ -94,7 +99,42 @@ body{
     border-radius:6px;
     color:white;
 }
-    
+
+.risk-pill{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+
+    width:140px;
+    height:36px;
+
+    border-radius:10px;
+    font-size:13px;
+    font-weight:600;
+
+    margin-right:8px;
+    margin-bottom:8px;
+}
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border:1px solid #60a5fa;
+    border-radius:8px;
+    background:#0f172a;
+    color:#bfdbfe;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+
+.back-btn:hover{
+    background:#1d4ed8;
+    border-color:#93c5fd;
+    color:white;
+}
 </style>
 
 </head>
@@ -110,8 +150,8 @@ Financial Crime Investigator Workbench
 </h2>
 
 <a href="./"
-   class="btn btn-secondary">
-Back
+   class="back-btn">
+&larr; Back
 </a>
 
 </div>
@@ -133,46 +173,107 @@ Back
 
         <hr>
 
-        <h3 class="mb-3">
+        <h1 class="mb-4 fw-bold">
             {{ result.customer_name }}
-        </h3>
+        </h1>
 
         
         <div class="mt-3">
 
-    <div>
-        <strong>Customer ID:</strong>
-        {{ result.customer_id }}
-    </div>
+    <div class="mb-2">
+    👤 <strong>Customer ID:</strong>
+    {{ result.customer_id }}
+</div>
 
-    <div>
-        <strong>Age:</strong>
-        {{ result.age }}
-    </div>
+<div class="mb-2">
+    🎂 <strong>Age:</strong>
+    {{ result.age }}
+</div>
 
-    <div>
-        <strong>Country:</strong>
-        {{ result.country }}
-    </div>
+<div class="mb-2">
+    🌎 <strong>Country:</strong>
+    {{ result.country }}
+</div>
 
     <div>
         <strong>Risk Profile:</strong>
-        {{ result.risk_profile }}
+
+<span class="
+{% if result.risk_profile == 'High' %}
+text-danger
+{% elif result.risk_profile == 'Medium' %}
+text-warning
+{% else %}
+text-success
+{% endif %}
+fw-bold">
+
+{{ result.risk_profile }}
+
+</span>
     </div>
 
 </div>
         
-        <div class="progress mt-3 mb-4">
-            <div class="progress-bar bg-danger"
-                 style="width:100%;font-size:22px;font-weight:bold;">
-                {{ result.risk_score }}
-            </div>
+       <div class="mt-4">
+
+    <div class="d-flex justify-content-between mb-2">
+        <span class="text-secondary">Risk Score</span>
+        <span class="fw-bold">{{ result.risk_score }}/100</span>
+    </div>
+
+    <div class="progress"
+         style="height:28px;background:#334155;">
+
+        <div class="progress-bar
+        {% if result.risk_score >= 90 %}
+            bg-danger
+        {% elif result.risk_score >= 70 %}
+            bg-warning text-dark
+        {% else %}
+            bg-success
+        {% endif %}"
+
+        role="progressbar"
+        style="width: {{ result.risk_score }}%;">
         </div>
 
-        <p>
-            Risk Level:
-            <b>{{ result.risk_level }}</b>
-        </p>
+    </div>
+
+    <div class="d-flex justify-content-between small text-secondary mt-1">
+        <span>0</span>
+        <span>25</span>
+        <span>50</span>
+        <span>75</span>
+        <span>100</span>
+    </div>
+
+</div>
+
+        <div class="mt-3">
+
+Risk Level:
+
+<span class="
+badge
+
+{% if result.risk_level == 'HIGH' %}
+bg-danger
+
+{% elif result.risk_level == 'MEDIUM' %}
+bg-warning text-dark
+
+{% else %}
+bg-success
+
+{% endif %}
+">
+
+{{ result.risk_level }}
+
+</span>
+
+</div>
 
         <h6 class="mt-4">
             Risk Indicators
@@ -204,7 +305,12 @@ Back
 AI Investigation Summary
 </div>
 
-<p class="mt-3">
+<p class="mt-3"
+   style="
+      line-height:1.8;
+      font-size:16px;
+      color:#e2e8f0;
+   ">
 {{ result.ai_summary }}
 </p>
 

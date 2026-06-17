@@ -5,6 +5,7 @@ from fastapi import Request
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from controllers.investigation_controller import handle_query
+import pandas as pd
 
 from services.analytics_service import (
 get_suspicious_customers,
@@ -45,6 +46,37 @@ async def dashboard(request: Request):
         get_high_value_transactions()
     )
 
+    transactions = pd.read_csv(
+    "data/transactions.csv"
+    )
+
+    dashboard_rows = []
+    
+    for customer in top_customers:
+    
+        customer_txns = transactions[
+            transactions["customer_id"]
+            == customer["customer_id"]
+        ]
+    
+        latest_date = "N/A"
+    
+        if not customer_txns.empty:
+    
+            latest_date = (
+                customer_txns
+                .sort_values(
+                    by="timestamp",
+                    ascending=False
+                )
+                .iloc[0]["timestamp"]
+            )
+    
+        dashboard_rows.append({
+            "customer": customer,
+            "last_activity": latest_date
+        })
+
     suspicious_count = len(
         top_customers
     )
@@ -71,7 +103,8 @@ async def dashboard(request: Request):
                 crypto_transactions[:3],
 
             "top_high_value_transactions":
-                high_value_transactions[:3]
+                high_value_transactions[:3],
+            "dashboard_rows": dashboard_rows
         }
     )
 

@@ -160,14 +160,13 @@ body{
     border-bottom:none;
 }
 
-#queue-table th{
-    padding:8px;
-    font-size:12px;
-    font-weight:600;
+#queue-table{
+    width:100%;
+    table-layout:fixed;
 }
 
 #queue-table td{
-    padding:8px;
+    padding:12px 8px;
     font-size:12px;
     vertical-align:middle;
 }
@@ -182,11 +181,7 @@ body{
     font-size:11px;
 }
     
-#queue-table td:nth-child(2),
-#queue-table th:nth-child(2){
-    text-align:center;
-    width:120px;
-}
+
 .customer-link{
     background:none;
     border:none;
@@ -270,6 +265,34 @@ body{
     font-size:12px;
 
 }
+
+#queue-table{
+    width:100%;
+    table-layout:fixed;
+}
+
+#queue-table th:nth-child(1),
+#queue-table td:nth-child(1){
+    width:35%;
+}
+
+#queue-table th:nth-child(2),
+#queue-table td:nth-child(2){
+    width:10%;
+    text-align:center;
+}
+
+#queue-table th:nth-child(3),
+#queue-table td:nth-child(3){
+    width:30%;
+}
+
+#queue-table th:nth-child(4),
+#queue-table td:nth-child(4){
+    width:25%;
+    text-align:center;
+}
+
 </style>
 
 
@@ -293,18 +316,6 @@ body{
         📊 Dashboard
     </div>
 
-    <div class="menu-item">
-        👥 Customers
-    </div>
-
-    <div class="menu-item">
-        ₿ Crypto Activity
-    </div>
-
-    <div class="menu-item">
-        📂 Cases
-    </div>
-
 </div>
 
 <div class="col-md-10 p-4">
@@ -321,7 +332,7 @@ body{
             </h2>
 
             <div style="color:#94a3b8;">
-                AI-Powered Fraud Detection & Investigation Workbench
+                AI-Powered Fraud Detection & Investigation 
             </div>
 
         </div>
@@ -520,20 +531,20 @@ Architecture
 
     </div>
 
-    <table id="queue-table" class="table table-dark table-hover mt-3 mb-0">
+    <table id="queue-table" class="table table-dark table-hover mt-3 mb-0 w-100">
 
         <thead>
             <tr>
                 <th>Customer</th>
                 <th>Risk</th>
                 <th>Reason</th>
-				<th>AI Insight</th>
+				<th>Date</th>
             </tr>
         </thead>
 
         <tbody>
 
-        {% for customer in top_customers %}
+        {% for row in dashboard_rows %}
 
             <tr>
 
@@ -544,13 +555,13 @@ Architecture
     <input
         type="hidden"
         name="query"
-        value="investigate customer {{ customer.customer_id }}">
+        value="investigate customer {{ row.customer.customer_id }}">
 
     <button
         type="submit"
         class="customer-link">
 
-        {{ customer.customer_name }}
+        {{ row.customer.customer_name }}
 
     </button>
 
@@ -560,22 +571,22 @@ Architecture
 
                 <td>
 
-                    {% if customer.risk_score >= 90 %}
+                    {% if row.customer.risk_score  >= 90 %}
 
                     <span class="badge bg-danger">
-                        {{ customer.risk_score }}
+                        {{ row.customer.risk_score }}
                     </span>
 
-                    {% elif customer.risk_score >= 70 %}
+                    {% elif row.customer.risk_score >= 70 %}
 
                     <span class="badge bg-warning text-dark">
-                        {{ customer.risk_score }}
+                        {{ row.customer.risk_score }}
                     </span>
 
                     {% else %}
 
                     <span class="badge bg-success">
-                        {{ customer.risk_score }}
+                        {{ row.customer.risk_score }}
                     </span>
 
                     {% endif %}
@@ -608,41 +619,11 @@ Architecture
 
 {% endif %}
 </td>
-<td>
 
-{% if loop.index == 1 %}
-
-<span class="text-danger fw-bold">
-Potential AML Pattern
-</span>
-
-{% elif loop.index == 2 %}
-
-<span class="text-warning fw-bold">
-VPN + Midnight Activity
-</span>
-
-{% elif loop.index == 3 %}
-
-<span class="text-info fw-bold">
-Crypto Exposure
-</span>
-
-{% elif loop.index == 4 %}
-
-<span class="text-primary fw-bold">
-Rapid Fund Movement
-</span>
-
-{% else %}
-
-<span class="text-warning fw-bold">
-High Value Transfer
-</span>
-
-{% endif %}
-
+<td class="text-secondary">
+    {{ row.last_activity[:16] }}
 </td>
+
 
 
             </tr>
